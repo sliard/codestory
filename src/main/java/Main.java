@@ -21,15 +21,18 @@ public class Main extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String q = req.getParameter("q");
         String r;
-        if (q.equals(QUELLE_EST_TON_ADRESSE_EMAIL)) {
+        if (q == null) {
+            r = "@see http://code-story.net";
+        } else if (q.equals(QUELLE_EST_TON_ADRESSE_EMAIL)) {
             r = "nicolas.deloof@gmail.com";
         } else if (q.equals(ES_TU_ABONNE_A_LA_MAILING_LIST)) {
             r = "OUI";
         } else if (q.equals(ES_TU_HEUREUX_DE_PARTICIPER)) {
             r = "OUI";
         } else {
-            r = "@see http://code-story.net";
+            r = "Désole, je ne comprends pas votre question";
         }
+
         resp.getWriter().print(r);
    }
 }
