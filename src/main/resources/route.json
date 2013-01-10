@@ -2,6 +2,7 @@
     "Quelle est ton adresse email" : "nicolas.deloof@gmail.com",
     "Es tu abonne a la mailing list(OUI/NON)" : "OUI",
     "Es tu heureux de participer(OUI/NON)" : "OUI",
-    "Es tu pret a recevoir une enonce au format markdown par http post(OUI/NON)" : "OUI"
+    "Es tu pret a recevoir une enonce au format markdown par http post(OUI/NON)" : "OUI",
+    "Et ce que tu reponds toujours oui(OUI/NON)" : "NON"
 }
 

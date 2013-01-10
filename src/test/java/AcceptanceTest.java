@@ -39,4 +39,12 @@ public class AcceptanceTest {
         beginAt("/?q=Es+tu+pret+a+recevoir+une+enonce+au+format+markdown+par+http+post(OUI/NON)");
         assertThat(getPageSource(), equalTo("OUI"));
     }
+
+    @Test
+    public void should_not_always_answer_YES() {
+        setBaseUrl("http://localhost:8080");
+        beginAt("/?q=Et+ce+que+tu+reponds+toujours+oui(OUI/NON)");
+        assertThat(getPageSource(), equalTo("NON"));
+    }
+
 }
