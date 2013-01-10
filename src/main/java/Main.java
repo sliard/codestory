@@ -1,3 +1,5 @@
+import org.apache.commons.io.IOUtils;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -10,7 +12,12 @@ public class Main extends HttpServlet {
     private static final String ES_TU_ABONNE_A_LA_MAILING_LIST = "Es tu abonne a la mailing list(OUI/NON)";
 
     @Override
-    protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        getServletContext().log("POST:" + IOUtils.toString(req.getInputStream()));
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String q = req.getParameter("q");
         String r;
         if (q.equals(QUELLE_EST_TON_ADRESSE_EMAIL)) {
