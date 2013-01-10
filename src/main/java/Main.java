@@ -1,3 +1,4 @@
+import net.sf.json.JSONException;
 import net.sf.json.JSONObject;
 import org.apache.commons.io.IOUtils;
 
@@ -35,11 +36,13 @@ public class Main extends HttpServlet {
         if (q == null) {
             r = "@see http://code-story.net";
         } else {
-            r = routes.getString(q);
-            if (r == null)
+            try {
+                r = routes.getString(q);
+            } catch(JSONException e) {
                 r = "Désole, je ne comprends pas votre question";
+                resp.sendError(HttpServletResponse.SC_BAD_REQUEST);
+            }
         }
-
         resp.getWriter().print(r);
    }
 }
