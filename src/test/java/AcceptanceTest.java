@@ -49,12 +49,18 @@ public class AcceptanceTest {
         assertThat(resp.getResponseCode(), equalTo(200));
     }
 
-
     @Test
     public void should_not_always_answer_YES() throws Exception {
-        WebRequest req = new GetMethodWebRequest("http://localhost:8080/?q=Et+ce+que+tu+reponds+toujours+oui(OUI/NON)");       // Est ?
+        WebRequest req = new GetMethodWebRequest("http://localhost:8080/?q=Est+ce+que+tu+reponds+toujours+oui(OUI/NON)");
         WebResponse resp = wc.getResponse( req );
         assertThat(resp.getText(), equalTo("NON"));
+    }
+
+    @Test
+    public void should_have_received_challenge_1() throws Exception {
+        WebRequest req = new GetMethodWebRequest("http://localhost:8080/?q=As+tu+bien+recu+le+premier+enonce(OUI/NON)");
+        WebResponse resp = wc.getResponse( req );
+        assertThat(resp.getText(), equalTo("OUI"));
     }
 
 }
