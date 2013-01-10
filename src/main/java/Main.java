@@ -10,6 +10,7 @@ public class Main extends HttpServlet {
 
     private static final String QUELLE_EST_TON_ADRESSE_EMAIL = "Quelle est ton adresse email";
     private static final String ES_TU_ABONNE_A_LA_MAILING_LIST = "Es tu abonne a la mailing list(OUI/NON)";
+    private static final String ES_TU_HEUREUX_DE_PARTICIPER = "Es tu heureux de participer(OUI/NON)";
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -23,6 +24,8 @@ public class Main extends HttpServlet {
         if (q.equals(QUELLE_EST_TON_ADRESSE_EMAIL)) {
             r = "nicolas.deloof@gmail.com";
         } else if (q.equals(ES_TU_ABONNE_A_LA_MAILING_LIST)) {
+            r = "OUI";
+        } else if (q.equals(ES_TU_HEUREUX_DE_PARTICIPER)) {
             r = "OUI";
         } else {
             r = "@see http://code-story.net";
