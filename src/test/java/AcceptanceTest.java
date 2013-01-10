@@ -27,4 +27,12 @@ public class AcceptanceTest {
 
         assertThat(getPageSource(), equalTo("OUI"));
     }
+
+    @Test
+    public void should_confirm_I_m_happy() {
+        setBaseUrl("http://localhost:8080");
+        beginAt("/?q=Es+tu+heureux+de+participer(OUI/NON)");
+
+        assertThat(getPageSource(), equalTo("OUI"));
+    }
 }
