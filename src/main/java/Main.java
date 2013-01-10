@@ -8,6 +8,13 @@ public class Main extends HttpServlet {
 
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.getWriter().print("nicolas.deloof@gmail.com");
+        String q = req.getParameter("q");
+        if (q.equals("Quelle est ton adresse email")) {
+            resp.getWriter().print("nicolas.deloof@gmail.com");
+        } else if (q.equals("Es tu abonne a la mailing list(OUI/NON)")) {
+            resp.getWriter().print("OUI");
+        } else {
+            resp.getWriter().print("@see http://code-story.net");
+        }
    }
 }
