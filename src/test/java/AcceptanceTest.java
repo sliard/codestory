@@ -1,7 +1,7 @@
+import com.meterware.httpunit.*;
 import org.junit.ClassRule;
 import org.junit.Test;
 
-import static net.sourceforge.jwebunit.junit.JWebUnit.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
@@ -12,39 +12,49 @@ public class AcceptanceTest {
 
     public static @ClassRule WebServer server = new WebServer();
 
+    WebConversation wc = new WebConversation();    
+
     @Test
-    public void should_return_my_email() {
-        setBaseUrl("http://localhost:8080");
-        beginAt("/?q=Quelle+est+ton+adresse+email");
-        assertThat(getPageSource(), equalTo("nicolas.deloof@gmail.com"));
+    public void should_return_my_email() throws Exception {
+        WebRequest req = new GetMethodWebRequest("http://localhost:8080/?q=Quelle+est+ton+adresse+email");
+        WebResponse resp = wc.getResponse( req );
+        assertThat(resp.getText(), equalTo("nicolas.deloof@gmail.com"));
     }
 
     @Test
-    public void should_confirm_I_subscribed_the_mailing_list() {
-        setBaseUrl("http://localhost:8080");
-        beginAt("/?q=Es+tu+abonne+a+la+mailing+list(OUI/NON)");
-        assertThat(getPageSource(), equalTo("OUI"));
+    public void should_confirm_I_subscribed_the_mailing_list() throws Exception {
+        WebRequest req = new GetMethodWebRequest("http://localhost:8080/?q=Es+tu+abonne+a+la+mailing+list(OUI/NON)");
+        WebResponse resp = wc.getResponse( req );
+        assertThat(resp.getText(), equalTo("OUI"));
     }
 
     @Test
-    public void should_confirm_I_m_happy() {
-        setBaseUrl("http://localhost:8080");
-        beginAt("/?q=Es+tu+heureux+de+participer(OUI/NON)");
-        assertThat(getPageSource(), equalTo("OUI"));
+    public void should_confirm_I_m_happy() throws Exception {
+        WebRequest req = new GetMethodWebRequest("http://localhost:8080/?q=Es+tu+heureux+de+participer(OUI/NON)");
+        WebResponse resp = wc.getResponse( req );
+        assertThat(resp.getText(), equalTo("OUI"));
     }
 
     @Test
-    public void should_accept_POST_challenges() {
-        setBaseUrl("http://localhost:8080");
-        beginAt("/?q=Es+tu+pret+a+recevoir+une+enonce+au+format+markdown+par+http+post(OUI/NON)");
-        assertThat(getPageSource(), equalTo("OUI"));
+    public void should_accept_POST_challenges() throws Exception {
+        WebRequest req = new GetMethodWebRequest("http://localhost:8080/?q=Es+tu+pret+a+recevoir+une+enonce+au+format+markdown+par+http+post(OUI/NON)");
+        WebResponse resp = wc.getResponse( req );
+        assertThat(resp.getText(), equalTo("OUI"));
     }
 
     @Test
-    public void should_not_always_answer_YES() {
-        setBaseUrl("http://localhost:8080");
-        beginAt("/?q=Et+ce+que+tu+reponds+toujours+oui(OUI/NON)");
-        assertThat(getPageSource(), equalTo("NON"));
+    public void should_log_POST() throws Exception {
+        PostMethodWebRequest req = new PostMethodWebRequest("http://localhost:8080");
+        WebResponse resp = wc.getResponse( req );
+        assertThat(resp.getResponseCode(), equalTo(200));
+    }
+
+
+    @Test
+    public void should_not_always_answer_YES() throws Exception {
+        WebRequest req = new GetMethodWebRequest("http://localhost:8080/?q=Et+ce+que+tu+reponds+toujours+oui(OUI/NON)");       // Est ?
+        WebResponse resp = wc.getResponse( req );
+        assertThat(resp.getText(), equalTo("NON"));
     }
 
 }

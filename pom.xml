@@ -29,9 +29,15 @@
           <scope>test</scope>
       </dependency>
       <dependency>
-          <groupId>net.sourceforge.jwebunit</groupId>
-          <artifactId>jwebunit-htmlunit-plugin</artifactId>
-          <version>3.1</version>
+          <groupId>httpunit</groupId>
+          <artifactId>httpunit</artifactId>
+          <version>1.7</version>
+          <scope>test</scope>
+      </dependency>
+      <dependency>
+          <groupId>rhino</groupId>
+          <artifactId>js</artifactId>
+          <version>1.6R5</version>
           <scope>test</scope>
       </dependency>
       <dependency>

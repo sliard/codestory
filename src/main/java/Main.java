@@ -15,7 +15,7 @@ public class Main extends HttpServlet {
     private JSONObject routes;
 
     @Override
-    public void init(ServletConfig config) throws ServletException {
+    public void init() throws ServletException {
         InputStream stream = getClass().getClassLoader().getResourceAsStream("route.json");
         try {
             routes = JSONObject.fromObject(IOUtils.toString(stream));
