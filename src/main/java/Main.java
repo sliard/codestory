@@ -1,6 +1,8 @@
 import net.sf.json.JSONException;
 import net.sf.json.JSONObject;
 import org.apache.commons.io.IOUtils;
+import scalaskel.Change;
+import scalaskel.ChangeService;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -9,8 +11,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintWriter;
 
 public class Main extends HttpServlet {
+
+    private ChangeService service = new ChangeService();
 
     private JSONObject routes;
 
@@ -31,18 +36,34 @@ public class Main extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String q = req.getParameter("q");
-        String r;
-        if (q == null) {
-            r = "@see http://code-story.net";
-        } else {
-            try {
-                r = routes.getString(q);
-            } catch(JSONException e) {
-                r = "Désole, je ne comprends pas votre question";
-                resp.sendError(HttpServletResponse.SC_BAD_REQUEST);
+
+        String path = req.getPathInfo();
+        if (path.equals("/")) {
+            String q = req.getParameter("q");
+            String r;
+            if (q == null) {
+                r = "@see http://code-story.net";
+            } else {
+                try {
+                    r = routes.getString(q);
+                } catch(JSONException e) {
+                    r = "Désole, je ne comprends pas votre question";
+                    resp.sendError(HttpServletResponse.SC_BAD_REQUEST);
+                }
             }
+            resp.getWriter().print(r);
         }
-        resp.getWriter().print(r);
+        else if (path.startsWith("/scalaskel")) {
+            int groDessimal = Integer.parseInt(path.substring(11));
+            resp.setContentType("application/json");
+            PrintWriter w = resp.getWriter();
+            String sep = "[";
+            for (Change change : service.getPossibleChanges(groDessimal)) {
+                w.print(sep);
+                sep = ", ";
+                w.print(change.asJson());
+            }
+            w.print("]");
+        }
    }
 }

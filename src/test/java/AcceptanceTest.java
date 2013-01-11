@@ -63,4 +63,11 @@ public class AcceptanceTest {
         assertThat(resp.getText(), equalTo("OUI"));
     }
 
+    @Test
+    public void should_compute_scalakel() throws Exception {
+        WebRequest req = new GetMethodWebRequest("http://localhost:8080/scalaskel/1");
+        WebResponse resp = wc.getResponse( req );
+        assertThat(resp.getText(), equalTo("[{\"foo\":1}]"));
+    }
+
 }
