@@ -46,7 +46,7 @@ public class AcceptanceTest {
     public void should_log_POST() throws Exception {
         PostMethodWebRequest req = new PostMethodWebRequest("http://localhost:8080");
         WebResponse resp = wc.getResponse( req );
-        assertThat(resp.getResponseCode(), equalTo(200));
+        assertThat(resp.getResponseCode(), equalTo(201));
     }
 
     @Test

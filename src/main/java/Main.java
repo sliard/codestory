@@ -32,6 +32,7 @@ public class Main extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         getServletContext().log("POST:" + IOUtils.toString(req.getInputStream()));
+        resp.setStatus(HttpServletResponse.SC_CREATED);
     }
 
     @Override
