@@ -65,7 +65,7 @@ public class AcceptanceTest {
 
     @Test
     public void should_compute_scalakel() throws Exception {
-        WebRequest req = new GetMethodWebRequest("http://localhost:8080/scalaskel/1");
+        WebRequest req = new GetMethodWebRequest("http://localhost:8080/scalaskel/change/1");
         WebResponse resp = wc.getResponse( req );
         assertThat(resp.getText(), equalTo("[{\"foo\":1}]"));
     }

@@ -4,7 +4,6 @@ import org.apache.commons.io.IOUtils;
 import scalaskel.Change;
 import scalaskel.ChangeService;
 
-import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -15,6 +14,7 @@ import java.io.PrintWriter;
 
 public class Main extends HttpServlet {
 
+    private static final String SCALASKEL = "/scalaskel/change/";
     private ChangeService service = new ChangeService();
 
     private JSONObject routes;
@@ -54,8 +54,8 @@ public class Main extends HttpServlet {
             }
             resp.getWriter().print(r);
         }
-        else if (path.startsWith("/scalaskel")) {
-            int groDessimal = Integer.parseInt(path.substring(11));
+        else if (path.startsWith(SCALASKEL)) {
+            int groDessimal = Integer.parseInt(path.substring(SCALASKEL.length()));
             resp.setContentType("application/json");
             PrintWriter w = resp.getWriter();
             String sep = "[";
