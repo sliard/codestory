@@ -39,6 +39,12 @@ public class Main extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         String path = req.getPathInfo();
+
+        // strange behavior on cloudbees tomcat compared to unit test jetty
+        System.out.println(path);
+        if (path == null) path = "/";
+        if (!path.startsWith("/")) path = "/"+path;
+
         if (path.equals("/")) {
             String q = req.getParameter("q");
             String r;
