@@ -40,11 +40,8 @@ public class Main extends HttpServlet {
 
         String path = req.getPathInfo();
 
-        // strange behavior on cloudbees tomcat compared to unit test jetty
-        System.out.println("getPathInfo: " +path);
-        System.out.println("getServletPath: " +req.getServletPath());
-        if (path == null) path = "/";
-        if (!path.startsWith("/")) path = "/"+path;
+        // tomcat don't behave like jetty
+        if (path == null) path = req.getServletPath();
 
         if (path.equals("/")) {
             String q = req.getParameter("q");
