@@ -11,11 +11,15 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Main extends HttpServlet {
 
     private static final String SCALASKEL = "/scalaskel/change/";
     private ChangeService service = new ChangeService();
+
+    private final Pattern addition = Pattern.compile("(\\d+) (\\d+)"); // '+' char in URL converted to blank
 
     private JSONObject routes;
 
@@ -38,6 +42,8 @@ public class Main extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
+        // TODO implement some routing logic as this become unreadable
+
         String path = req.getPathInfo();
 
         // tomcat don't behave like jetty
@@ -52,8 +58,15 @@ public class Main extends HttpServlet {
                 try {
                     r = routes.getString(q);
                 } catch(JSONException e) {
-                    r = "Désole, je ne comprends pas votre question";
-                    resp.sendError(HttpServletResponse.SC_BAD_REQUEST);
+                    Matcher m = addition.matcher(q);
+                    if (m.matches()) {
+                        int i = Integer.parseInt(m.group(1));
+                        int j = Integer.parseInt(m.group(2));
+                        r = String.valueOf( i + j);
+                    } else {
+                        r = "Désole, je ne comprends pas votre question";
+                        resp.sendError(HttpServletResponse.SC_BAD_REQUEST);
+                    }
                 }
             }
             resp.getWriter().print(r);

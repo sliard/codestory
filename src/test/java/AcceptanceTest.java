@@ -70,4 +70,18 @@ public class AcceptanceTest {
         assertThat(resp.getText(), equalTo("[{\"foo\":1}]"));
     }
 
+    @Test
+    public void should_compute_1and1() throws Exception {
+        WebRequest req = new GetMethodWebRequest("http://localhost:8080/?q=1+1");
+        WebResponse resp = wc.getResponse( req );
+        assertThat(resp.getText(), equalTo("2"));
+    }
+
+    @Test
+    public void should_compute_2and2() throws Exception {
+        WebRequest req = new GetMethodWebRequest("http://localhost:8080/?q=2+2");
+        WebResponse resp = wc.getResponse( req );
+        assertThat(resp.getText(), equalTo("4"));
+    }
+
 }
