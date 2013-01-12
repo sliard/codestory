@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.text.DecimalFormatSymbols;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -59,7 +61,9 @@ public class Main extends HttpServlet {
                 try {
                     r = routes.getString(q);
                 } catch(JSONException e) {
-                    q = q.replace(' ', '+');
+
+                    q = q.replace(' ', '+') // URL encoding use '+' for blank
+                         .replace(',', '.'); // Force french-style decimalformat
                     r = String.valueOf( new GroovyShell().evaluate(q) ).replace('.', ',');
                 }
             }
