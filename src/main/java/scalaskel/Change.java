@@ -1,5 +1,8 @@
 package scalaskel;
 
+import java.io.PrintWriter;
+import java.util.List;
+
 import static scalaskel.Coin.*;
 
 /**
@@ -16,6 +19,16 @@ public class Change {
         this.qix = qix;
         this.baz = baz;
         this.grosDessimalValue = FOO.value * foo + BAR.value * bar + QIX.value * qix + BAZ.value * baz;
+    }
+
+    public static void asJson(PrintWriter w, List<Change> possibleChanges) {
+        String sep = "[";
+        for (Change change : possibleChanges) {
+            w.print(sep);
+            sep = ", ";
+            w.print(change.asJson());
+        }
+        w.print("]");
     }
 
     public void add(Coin coin) {
