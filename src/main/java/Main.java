@@ -64,8 +64,7 @@ public class Main extends HttpServlet {
                     q = q.replace(' ', '+') // URL encoding use '+' for blank
                          .replace(',', '.'); // Force french-style decimalformat
                     r = String.valueOf( new GroovyShell().evaluate(q) ).replace('.', ',');
-                    if (r.endsWith(",0")) r = r.substring(0, r.length() - 2);
-                    if (r.endsWith(",00")) r = r.substring(0, r.length() - 3);
+                    r = truncate(r);
                 }
             }
             resp.getWriter().print(r);
@@ -83,4 +82,11 @@ public class Main extends HttpServlet {
             w.print("]");
         }
    }
+
+    private String truncate(String r) {
+        // probably could be done a better way
+        if (r.endsWith(",0")) r = r.substring(0, r.length() - 2);
+        if (r.endsWith(",00")) r = r.substring(0, r.length() - 3);
+        return r;
+    }
 }
