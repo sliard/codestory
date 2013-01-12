@@ -60,7 +60,7 @@ public class Main extends HttpServlet {
                     r = routes.getString(q);
                 } catch(JSONException e) {
                     q = q.replace(' ', '+');
-                    r = String.valueOf( new GroovyShell().evaluate(q) );
+                    r = String.valueOf( new GroovyShell().evaluate(q) ).replace('.', ',');
                 }
             }
             resp.getWriter().print(r);

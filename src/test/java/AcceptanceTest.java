@@ -91,4 +91,11 @@ public class AcceptanceTest {
         assertThat(resp.getText(), equalTo("9"));
     }
 
+    @Test
+    public void should_compute_3div2() throws Exception {
+        WebRequest req = new GetMethodWebRequest("http://localhost:8080/?q=3/2");
+        WebResponse resp = wc.getResponse( req );
+        assertThat(resp.getText(), equalTo("1,5")); // french
+    }
+
 }
