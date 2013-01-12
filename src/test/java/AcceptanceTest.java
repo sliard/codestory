@@ -102,7 +102,7 @@ public class AcceptanceTest {
     public void should_compute_1dot5x4() throws Exception {
         WebRequest req = new GetMethodWebRequest("http://localhost:8080/?q=1,5*4");
         WebResponse resp = wc.getResponse( req );
-        assertThat(resp.getText(), equalTo("6,0")); // french
+        assertThat(resp.getText(), equalTo("6")); // french
     }
 
 }

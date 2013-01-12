@@ -65,6 +65,7 @@ public class Main extends HttpServlet {
                     q = q.replace(' ', '+') // URL encoding use '+' for blank
                          .replace(',', '.'); // Force french-style decimalformat
                     r = String.valueOf( new GroovyShell().evaluate(q) ).replace('.', ',');
+                    if (r.endsWith(",0")) r = r.substring(0, r.length() - 2);
                 }
             }
             resp.getWriter().print(r);
