@@ -1,3 +1,4 @@
+import groovy.lang.GroovyShell;
 import net.sf.json.JSONException;
 import net.sf.json.JSONObject;
 import org.apache.commons.io.IOUtils;
@@ -19,7 +20,7 @@ public class Main extends HttpServlet {
     private static final String SCALASKEL = "/scalaskel/change/";
     private ChangeService service = new ChangeService();
 
-    private final Pattern addition = Pattern.compile("(\\d+) (\\d+)"); // '+' char in URL converted to blank
+    private final Pattern operation = Pattern.compile("(\\d+)([ *])(\\d+)"); // '+' char in URL converted to blank
 
     private JSONObject routes;
 
@@ -58,15 +59,8 @@ public class Main extends HttpServlet {
                 try {
                     r = routes.getString(q);
                 } catch(JSONException e) {
-                    Matcher m = addition.matcher(q);
-                    if (m.matches()) {
-                        int i = Integer.parseInt(m.group(1));
-                        int j = Integer.parseInt(m.group(2));
-                        r = String.valueOf( i + j);
-                    } else {
-                        r = "Désole, je ne comprends pas votre question";
-                        resp.sendError(HttpServletResponse.SC_BAD_REQUEST);
-                    }
+                    q = q.replace(' ', '+');
+                    r = String.valueOf( new GroovyShell().evaluate(q) );
                 }
             }
             resp.getWriter().print(r);

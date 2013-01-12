@@ -84,4 +84,11 @@ public class AcceptanceTest {
         assertThat(resp.getText(), equalTo("4"));
     }
 
+    @Test
+    public void should_compute_3x3() throws Exception {
+        WebRequest req = new GetMethodWebRequest("http://localhost:8080/?q=3*3");
+        WebResponse resp = wc.getResponse( req );
+        assertThat(resp.getText(), equalTo("9"));
+    }
+
 }
