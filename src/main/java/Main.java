@@ -1,4 +1,5 @@
 import groovy.lang.GroovyShell;
+import javascript.OptimizeService;
 import net.sf.json.JSONException;
 import net.sf.json.JSONObject;
 import org.apache.commons.io.IOUtils;
@@ -11,22 +12,23 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.PrintWriter;
-import java.util.List;
-import java.util.regex.Pattern;
 
 public class Main extends HttpServlet {
 
+    // challenge #1
     private static final String SCALASKEL = "/scalaskel/change/";
-    private ChangeService service = new ChangeService();
+    private ChangeService scalaskel = new ChangeService();
 
-    private final Pattern operation = Pattern.compile("(\\d+)([ *])(\\d+)"); // '+' char in URL converted to blank
+    // challenge #2
+    private static final String JAVASCRIPT = "/javascript/optimize";
+    private OptimizeService javascript = new OptimizeService();
 
+    // handle ?q=...
     private JSONObject routes;
 
     @Override
     public void init() throws ServletException {
-        InputStream stream = getClass().getClassLoader().getResourceAsStream("route.json");
+        InputStream stream = getClass().getClassLoader().getResourceAsStream("questions.json");
         try {
             routes = JSONObject.fromObject(IOUtils.toString(stream));
         } catch (IOException e) {
@@ -36,7 +38,7 @@ public class Main extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        getServletContext().log("POST:" + IOUtils.toString(req.getInputStream()));
+        getServletContext().log("POST:" + getBody(req));
         resp.setStatus(HttpServletResponse.SC_CREATED);
     }
 
@@ -67,9 +69,17 @@ public class Main extends HttpServlet {
         else if (path.startsWith(SCALASKEL)) {
             int groDessimal = Integer.parseInt(path.substring(SCALASKEL.length()));
             resp.setContentType("application/json");
-            Change.asJson(resp.getWriter(), service.getPossibleChanges(groDessimal));
+            Change.asJson(resp.getWriter(), scalaskel.getPossibleChanges(groDessimal));
+        }
+        else if (path.startsWith(JAVASCRIPT)) {
+            resp.setContentType("application/json");
+            resp.getWriter().print(javascript.optimize(getBody(req)).asJson());
         }
    }
+
+    private String getBody(HttpServletRequest req) throws IOException {
+        return IOUtils.toString(req.getInputStream());
+    }
 
     private String calculator(String q) {
         String r;
